@@ -43,6 +43,7 @@ def _make_agent_node(agent_name: str):
             if outputs:
                 last = outputs[-1]
                 context_parts.append(f"[{name}]: {agent._summarize_output(last)}")
+                
         context = "\n\n".join(context_parts) if context_parts else None
 
         # Run the agent

@@ -42,16 +42,16 @@ def plan_node(state: OrchestratorState) -> dict:
 
     # Enforce max plan steps
     if len(plan.subtasks) > MAX_PLAN_STEPS:
-        print(f"  ⚠️ Plan had {len(plan.subtasks)} steps, truncating to {MAX_PLAN_STEPS}")
+        print(f"\t⚠️ Plan had {len(plan.subtasks)} steps, truncating to {MAX_PLAN_STEPS}")
         plan.subtasks = plan.subtasks[:MAX_PLAN_STEPS]
 
     # Log the plan
     print(f"\t🎯 Goal: {plan.goal}")
     for st in plan.subtasks:
         deps = f"(after step {st.depends_on})" if st.depends_on else ""
-        print(f"  Step {st.id}: [{st.agent}] {st.description} {deps}")
-        
-    print(f"  💡 Reasoning: {plan.reasoning}\n")
+        print(f"\tStep {st.id}: [{st.agent}] {st.description} {deps}")
+
+    print(f"\t💡 Reasoning: {plan.reasoning}\n")
 
     return {
         "plan": plan,

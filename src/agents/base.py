@@ -69,9 +69,9 @@ class BaseAgent(ABC):
         Returns:
             Dict representation of the agent's Pydantic output model.
         """
-        print(f"  🔧 [{self.name.upper()}] Starting...")
+        print(f"\t🔧 [{self.name.upper()}] Starting...")
         result = self._execute(task_brief, context)
-        print(f"  ✅ [{self.name.upper()}] Complete.")
+        print(f"\t✅ [{self.name.upper()}] Complete.")
         return result.model_dump() if isinstance(result, BaseModel) else result
 
     def _execute(self, task_brief: str, context: str | None = None) -> BaseModel:

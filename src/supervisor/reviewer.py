@@ -91,7 +91,7 @@ def review_node(state: OrchestratorState) -> dict:
 
     # ── Enforce retry limits ──────────────────
     if review.should_retry and retry_count >= MAX_RETRIES_PER_STEP:
-        print(f"  ⚠️ Max retries ({MAX_RETRIES_PER_STEP}) hit for this step — accepting as-is.")
+        print(f"\t⚠️ Max retries ({MAX_RETRIES_PER_STEP}) hit for this step — accepting as-is.")
         review.should_retry = False
         review.quality = "acceptable"
         review.feedback += f" [Accepted after {retry_count} retries — retry limit reached.]"
@@ -101,10 +101,10 @@ def review_node(state: OrchestratorState) -> dict:
     new_step = current_step if review.should_retry else current_step + 1
 
     emoji = {"good": "✅", "acceptable": "⚠️", "needs_retry": "🔄"}
-    print(f"  {emoji.get(review.quality, '❓')} Quality: {review.quality}")
-    print(f"  📝 Feedback: {review.feedback[:120]}...")
+    print(f"\t{emoji.get(review.quality, '❓')} Quality: {review.quality}")
+    print(f"\t📝 Feedback: {review.feedback[:120]}...")
     if review.should_retry:
-        print(f"  🔄 Retrying (attempt {new_retry_count}/{MAX_RETRIES_PER_STEP})...")
+        print(f"\t🔄 Retrying (attempt {new_retry_count}/{MAX_RETRIES_PER_STEP})...")
 
     return {
         "last_review": review,

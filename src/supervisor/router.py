@@ -27,7 +27,7 @@ def _summarize_plan(plan: Plan) -> str:
     """Create a concise string summary of the plan for the router prompt."""
     lines = [f"Goal: {plan.goal}"]
     for st in plan.subtasks:
-        lines.append(f"  Step {st.id}: [{st.agent}] {st.description}")
+        lines.append(f"\tStep {st.id}: [{st.agent}] {st.description}")
     return "\n".join(lines)
 
 
@@ -45,6 +45,7 @@ def _summarize_progress(state: OrchestratorState) -> str:
             if len(summary) > 300:
                 summary = summary[:300] + "..."
             lines.append(f"[{agent_name} #{i+1}]: {summary}")
+
     return "\n".join(lines)
 
 
@@ -86,7 +87,7 @@ def route_node(state: OrchestratorState) -> dict:
 
     # ── Safety valve: max iterations ──────────
     if iteration_count >= MAX_ITERATIONS:
-        print(f"  ⛔ [ROUTER] Max iterations ({MAX_ITERATIONS}) reached — forcing synthesis.")
+        print(f"\t⛔ [ROUTER] Max iterations ({MAX_ITERATIONS}) reached — forcing synthesis.")
         return {
             "next_agent": "synthesize",
             "current_task_brief": "Synthesize all available outputs into a final response.",
@@ -95,7 +96,7 @@ def route_node(state: OrchestratorState) -> dict:
 
     # ── Check if plan is complete ─────────────
     if plan and current_step >= len(plan.subtasks):
-        print(f"  🏁 [ROUTER] All plan steps complete — routing to synthesis.")
+        print(f"\t🏁 [ROUTER] All plan steps complete — routing to synthesis.")
         return {
             "next_agent": "synthesize",
             "current_task_brief": "All planned steps are complete. Synthesize the results.",
@@ -104,7 +105,7 @@ def route_node(state: OrchestratorState) -> dict:
 
     # ── Handle retry from review ──────────────
     if last_review and last_review.should_retry:
-        print(f"  🔄 [ROUTER] Retrying last step with feedback...")
+        print(f"\t🔄 [ROUTER] Retrying last step with feedback...")
         # Re-route to the same agent from the current step
         subtask = plan.subtasks[max(0, current_step - 1)]
         return {
@@ -122,7 +123,7 @@ def route_node(state: OrchestratorState) -> dict:
     progress_summary = _summarize_progress(state)
     last_output_summary = _get_last_output_summary(state)
     last_review_summary = None
-    
+
     if last_review:
         last_review_summary = f"Quality: {last_review.quality} | Feedback: {last_review.feedback}"
 
@@ -141,9 +142,9 @@ def route_node(state: OrchestratorState) -> dict:
 
     decision: RouteDecision = llm.invoke(messages)
 
-    print(f"  → Next: [{decision.next_agent.upper()}]")
-    print(f"  → Brief: {decision.task_brief[:100]}...")
-    print(f"  → Reason: {decision.reasoning[:100]}...")
+    print(f"\t→ Next: [{decision.next_agent.upper()}]")
+    print(f"\t→ Brief: {decision.task_brief[:200]}...")
+    print(f"\t→ Reason: {decision.reasoning[:200]}...")
 
     return {
         "next_agent": decision.next_agent,
