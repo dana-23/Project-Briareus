@@ -16,7 +16,7 @@ from config.settings import SUPERVISOR_MODEL, SUPERVISOR_TEMPERATURE
 from state.schemas import OrchestratorState
 
 
-def _get_synthesizer_llm() -> ChatOpenAI:
+def _get_synthesizer_llm() -> ChatGoogleGenerativeAI:
     return ChatGoogleGenerativeAI(
         model=SUPERVISOR_MODEL,
         temperature=0.3,  # slightly creative for polished prose

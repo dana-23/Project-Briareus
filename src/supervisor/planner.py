@@ -14,7 +14,7 @@ from config.settings import SUPERVISOR_MODEL, SUPERVISOR_TEMPERATURE, MAX_PLAN_S
 from state.schemas import OrchestratorState, Plan
 
 
-def _get_planner_llm() -> ChatOpenAI:
+def _get_planner_llm() -> ChatGoogleGenerativeAI:
     return ChatGoogleGenerativeAI(
         model=SUPERVISOR_MODEL,
         temperature=SUPERVISOR_TEMPERATURE,
@@ -46,10 +46,11 @@ def plan_node(state: OrchestratorState) -> dict:
         plan.subtasks = plan.subtasks[:MAX_PLAN_STEPS]
 
     # Log the plan
-    print(f"  🎯 Goal: {plan.goal}")
+    print(f"\t🎯 Goal: {plan.goal}")
     for st in plan.subtasks:
-        deps = f" (after step {st.depends_on})" if st.depends_on else ""
-        print(f"  Step {st.id}: [{st.agent}] {st.description}{deps}")
+        deps = f"(after step {st.depends_on})" if st.depends_on else ""
+        print(f"  Step {st.id}: [{st.agent}] {st.description} {deps}")
+        
     print(f"  💡 Reasoning: {plan.reasoning}\n")
 
     return {

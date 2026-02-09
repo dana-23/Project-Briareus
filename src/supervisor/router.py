@@ -16,7 +16,7 @@ from config.settings import SUPERVISOR_MODEL, SUPERVISOR_TEMPERATURE, MAX_ITERAT
 from state.schemas import OrchestratorState, Plan, RouteDecision
 
 
-def _get_router_llm() -> ChatOpenAI:
+def _get_router_llm() -> ChatGoogleGenerativeAI:
     return ChatGoogleGenerativeAI(
         model=SUPERVISOR_MODEL,
         temperature=SUPERVISOR_TEMPERATURE,
@@ -122,6 +122,7 @@ def route_node(state: OrchestratorState) -> dict:
     progress_summary = _summarize_progress(state)
     last_output_summary = _get_last_output_summary(state)
     last_review_summary = None
+    
     if last_review:
         last_review_summary = f"Quality: {last_review.quality} | Feedback: {last_review.feedback}"
 

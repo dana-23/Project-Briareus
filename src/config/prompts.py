@@ -193,16 +193,16 @@ def build_reviewer_prompt(
         Rate the output as "good", "acceptable", or "needs_retry" with specific feedback."""
 
 
-        def build_synthesizer_prompt(task: str, all_outputs: str) -> str:
-            return f"""Synthesize the following agent outputs into a single, coherent response to the user's task.
+def build_synthesizer_prompt(task: str, all_outputs: str) -> str:
+    return f"""Synthesize the following agent outputs into a single, coherent response to the user's task.
 
-        ORIGINAL TASK:
-        {task}
+    ORIGINAL TASK:
+    {task}
 
-        AGENT OUTPUTS:
-        {all_outputs}
+    AGENT OUTPUTS:
+    {all_outputs}
 
-        Produce a polished, unified response that directly addresses what the user asked for."""
+    Produce a polished, unified response that directly addresses what the user asked for."""
 
 
 def build_agent_prompt(task_brief: str, context: str | None = None) -> str:

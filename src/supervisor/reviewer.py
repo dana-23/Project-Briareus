@@ -21,7 +21,7 @@ from config.settings import (
 from state.schemas import OrchestratorState, ReviewResult
 
 
-def _get_reviewer_llm() -> ChatOpenAI:
+def _get_reviewer_llm() -> ChatGoogleGenerativeAI:
     return ChatGoogleGenerativeAI(
         model=SUPERVISOR_MODEL,
         temperature=SUPERVISOR_TEMPERATURE,

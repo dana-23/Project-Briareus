@@ -1,0 +1,21 @@
+# Project Briareus — Dependencies
+
+# Core orchestration
+langgraph>=0.2.0
+langchain>=0.3.0
+langchain-core>=0.3.0
+langchain-openai>=0.2.0
+langchain-community>=0.3.0
+
+# Tools
+tavily-python>=0.5.0
+
+# Data validation
+pydantic>=2.7.0
+
+# Config
+python-dotenv>=1.0.0
+
+# Dev / Testing
+pytest>=8.0.0
+pytest-asyncio>=0.24.0

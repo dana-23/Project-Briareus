@@ -1,0 +1,2 @@
+[console_scripts]
+briareus = main:main
