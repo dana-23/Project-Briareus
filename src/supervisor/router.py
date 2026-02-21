@@ -107,7 +107,7 @@ def route_node(state: OrchestratorState) -> dict:
     if last_review and last_review.should_retry:
         print(f"\t🔄 [ROUTER] Retrying last step with feedback...")
         # Re-route to the same agent from the current step
-        subtask = plan.subtasks[max(0, current_step - 1)]
+        subtask = plan.subtasks[max(0, current_step - 1)] # Redo the subtask
         return {
             "next_agent": subtask.agent,
             "current_task_brief": last_review.retry_instructions or subtask.description,
